@@ -1,5 +1,6 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductImage } from './product-image.entity';
+import { User } from 'src/auth/entities/user.entity';
 
 @Entity({
   name: 'products'
@@ -56,6 +57,13 @@ export class Product {
     {cascade: true, eager: true}
   )
   images?: ProductImage[];
+
+  @ManyToOne(
+    ()=> User,
+    (user) => user.id,
+    {eager: true} // Cargar automaticamente esta relación
+  )
+  user: User;
 
   // Antes de insertar
   @BeforeInsert()

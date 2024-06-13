@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -59,6 +59,15 @@ export class AuthService {
       ...user, 
       token: this.getJwtToken({id: user.id})
     };
+  }
+
+  async checkAuthStatus(user: User){
+
+    return {
+      ...user,
+      token: this.getJwtToken({id: user.id}),
+    };
+    
   }
 
   private getJwtToken(payload: JwtPayload) {
